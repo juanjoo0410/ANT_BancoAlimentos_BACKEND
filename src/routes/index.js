@@ -19,8 +19,12 @@ readdirSync(ROUTES_PATH).filter((filename) => {
 
             // Verifica que el módulo sea una función
             if (typeof route === 'function' || typeof route === 'object') {
-                router.use(`/${cleanName}`, route);
-                console.log(`Ruta /${cleanName} registrada exitosamente.`);
+                newName = cleanName;
+                if (cleanName.includes('Routes')) { // Verificar si el nombre contiene "Routes"
+                    newName = cleanName.replace('Routes', ''); // Eliminar "Routes" si está presente
+                }
+                router.use(`/${newName}`, route);
+                console.log(`Ruta /${newName} registrada exitosamente.`);
             } else {
                 console.warn(`El módulo en ${modulePath} no exporta un enrutador válido.`);
             }
